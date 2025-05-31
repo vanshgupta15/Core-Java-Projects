@@ -5,7 +5,18 @@ public class Diary
     public static void main(String[] args) 
     {
         Scanner sc= new Scanner(System.in);
-        System.out.println("Choose from the options:-\n1. Write a diary\n2. Read a diary");
+        System.out.println("Enter the password:");
+        
+        String password= sc.nextLine();
+        if(password.equals("khuljasimsim"))
+        {
+        boolean c=true;
+        while(c==true)
+        {
+            System.out.println("Do you want to continue if yes then press y else n");
+            char option= sc.next().charAt(0);
+            if(option=='y')
+            {        System.out.println("Choose from the options:-\n1. Write a diary\n2. Read a diary");
         int input= sc.nextInt();
         switch(input)
         {
@@ -42,6 +53,7 @@ public class Diary
                         System.out.print((char)i);
                     }
                     fr.close();
+                    System.out.println();
                 }
                 catch(Exception e)
                 {
@@ -50,5 +62,17 @@ public class Diary
                 break;
             }
         }
+        }
+        else
+        {
+            c=false;
+        }
+        }
+    }
+    else
+    {
+        System.out.println("Wrong password");
+        System.exit(0);
+    }
     }
 }
