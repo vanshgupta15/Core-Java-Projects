@@ -1,0 +1,21 @@
+1. idea selection
+
+    Personal Diary
+
+2. idea refinement
+
+    It will take input from the user and update it in the diary file 
+
+3. user experience
+
+    User will just input the text and it will automatically get updated. User will also get the option to print, edit as well as to delete any of his text.
+
+4. requirements clarification
+
+    requirements include a main class that will implement all the functions
+
+5. software design
+
+    We will create four class for four different functions that will be write, read, edit, delete and their objects will be called and they will do the needful in the main class
+
+
