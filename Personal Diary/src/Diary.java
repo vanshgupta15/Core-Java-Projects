@@ -27,7 +27,7 @@ public class Diary
                     System.out.println("Enter your diary name with extension");
                     String buffer1= sc.nextLine();
                     String f= sc.nextLine();
-                    FileWriter fw= new FileWriter(f);
+                    FileWriter fw= new FileWriter("Data/"+f);
                     System.out.println("Enter your new diary entry: ");
                     String s= sc.nextLine();
                     fw.write(s);
