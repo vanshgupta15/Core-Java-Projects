@@ -31,9 +31,9 @@ public class StudentManagerApp
     {
         switch(option)
         {
-            case 1:
+            case 1: //createStudent()
             {
-                StudentManager s= new StudentManager();
+                StudentManager create= new StudentManager();
                 System.out.println("Enter student id:");
                 int id= sc.nextInt();
                 System.out.println("What is the name of the student: ");
@@ -45,13 +45,22 @@ public class StudentManagerApp
                 String course= sc.nextLine();
                 String buffer2=sc.nextLine();
                 Student student= new Student(id, name, age, course);
-                s.createStudent(student);
+                create.createStudent(student);
+                break;
             }
-            case 2:
+            case 2:   //findStudent()
             {
+                StudentManager find= new StudentManager();
+                System.out.println("Enter the student id:");
+                int id= sc.nextInt();
+                find.findStudent(id);
+                break;
             }
             case 3:
             {
+                StudentFileHandler display= new StudentFileHandler();
+                display.studentDisplay();
+                break;
             }
         }
     }

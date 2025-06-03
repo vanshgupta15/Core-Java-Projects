@@ -6,4 +6,9 @@ public class StudentManager
         saver.saveStudent(student);
         return true;
     }
+    public void findStudent(int id)
+    {
+        StudentFileHandler searcher= new StudentFileHandler();
+        searcher.searchStudent(id);
+    }
 }
