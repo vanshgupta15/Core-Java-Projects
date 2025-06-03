@@ -1,5 +1,10 @@
 public class StudentManager 
 {
-    private Student student[];
-    public int count=100;
+    public boolean createStudent(Student student)
+    {
+        StudentFileHandler a= new StudentFileHandler();
+        a.saveStudent(student);
+        System.out.println(student.course());
+        return true;
+    }
 }
