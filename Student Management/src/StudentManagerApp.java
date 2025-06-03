@@ -34,9 +34,18 @@ public class StudentManagerApp
             case 1:
             {
                 StudentManager s= new StudentManager();
-                
-                Student vansh= new Student(1, "Vansh", 19, "BTech");
-                s.createStudent(vansh);
+                System.out.println("Enter student id:");
+                int id= sc.nextInt();
+                System.out.println("What is the name of the student: ");
+                String name= sc.nextLine();
+                String buffer1=sc.nextLine();
+                System.out.println("Enter age of the student:");
+                int age= sc.nextInt();
+                System.out.println("Enter the enrolled course: ");
+                String course= sc.nextLine();
+                String buffer2=sc.nextLine();
+                Student student= new Student(id, name, age, course);
+                s.createStudent(student);
             }
             case 2:
             {
