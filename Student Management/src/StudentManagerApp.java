@@ -37,13 +37,13 @@ public class StudentManagerApp
                 System.out.println("Enter student id:");
                 int id= sc.nextInt();
                 System.out.println("What is the name of the student: ");
-                String name= sc.nextLine();
                 String buffer1=sc.nextLine();
+                String name= sc.nextLine();
                 System.out.println("Enter age of the student:");
                 int age= sc.nextInt();
                 System.out.println("Enter the enrolled course: ");
-                String course= sc.nextLine();
                 String buffer2=sc.nextLine();
+                String course= sc.nextLine();
                 Student student= new Student(id, name, age, course);
                 create.createStudent(student);
                 break;

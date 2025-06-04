@@ -7,7 +7,7 @@ public class StudentFileHandler
         try
         {
             int f= s1.getId();
-            FileOutputStream fout= new FileOutputStream("Data/"+f+".txt");
+            FileOutputStream fout= new FileOutputStream("Data/"+f+"");
             ObjectOutputStream o= new ObjectOutputStream(fout);
             o.writeObject(s1);
             o.close();
@@ -19,13 +19,14 @@ public class StudentFileHandler
         }
     }
 
-    public void searchStudent(int id)
+    public void searchStudent(int id) //deserializing
     {
         try
         {
-            FileInputStream fileIn = new FileInputStream("Data/"+id+".txt");
+            FileInputStream fileIn = new FileInputStream("Data/"+id+"");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            System.out.println(in.readObject());
+            Student student= (Student)in.readObject();
+            System.out.println(student);
             in.close();
             fileIn.close();
         }
@@ -41,9 +42,15 @@ public class StudentFileHandler
         {
             File file= new File("C:\\Vansh_codings\\codecoach\\Core-java-projects\\Student Management\\Data");
             String [] paths=file.list();
-            for(String path:paths)
+            for(int i=0;i<paths.length;i++)
             {
-                System.out.println(path);
+                System.out.print(paths[i]);
+                FileInputStream fileIn = new FileInputStream("Data/"+paths[i]);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                Student student= (Student)in.readObject();
+                System.out.println(" "+student.getName());
+                in.close();
+                fileIn.close();
             }
         }
         catch(Exception e)

@@ -1,6 +1,7 @@
 import java.io.Serializable;
 public class Student implements Serializable
 {
+    private static final long serialVersionUID = 2L;
     private int id;
     private String name;
     private int age;
@@ -30,5 +31,10 @@ public class Student implements Serializable
     public String course()
     {
         return course;
+    }
+    @Override
+    public String toString()
+    {
+        return "Name: "+name+"\nId: "+id+"Age: "+age+"Course: "+course;
     }
 }
