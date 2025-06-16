@@ -10,15 +10,18 @@ public class Product
         this.price = price;
     }
 
-    public long getProductId() {
+    public long getProductId() 
+    {
         return productId;
     }
 
-    public String getProductName() {
+    public String getProductName() 
+    {
         return productName;
     }
 
-    public double getPrice() {
+    public double getPrice() 
+    {
         return price;
     }
 
