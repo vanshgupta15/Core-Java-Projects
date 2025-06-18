@@ -15,8 +15,8 @@ public class ECommerceDemo
         platform.addCustomer(customer);
 
         // Customer adds products to shopping cart
-        customer.(shoppingCart.addProduct(laptop));
-        customer.(shoppingCart.addProduct(phone));
+        customer.getShoppingCart.addProduct(laptop);
+        customer.getShoppingCart.addProduct(phone);
 
         // Customer places order
         customer.placeOrder();

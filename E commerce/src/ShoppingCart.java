@@ -14,6 +14,7 @@ public class ShoppingCart
     public void addProduct(Product product) 
     {
         products.add(product);
+        //calculate here
     }
 
     public void removeProduct(Product product)
