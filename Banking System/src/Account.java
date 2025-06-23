@@ -1,4 +1,4 @@
-abstract public class Account extends Bank
+abstract public class Account
 {
     private String accountNumber;
     private String accountHolderName;

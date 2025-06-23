@@ -35,7 +35,7 @@ public class CurrentAccount extends Account
     public void displayAccountDetails()
     {
         System.out.println("Account Number: "+getAccountNumber());
-        System.out.println("Account type: Saving Account");
+        System.out.println("Account type: Current Account");
         System.out.println("Holder name: "+getAccountHolderName());
         System.out.println("Balance :"+getBalance());
     }

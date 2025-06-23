@@ -16,6 +16,7 @@ public class BankingSystemApp {
 
             int choice = sc.nextInt();
             sc.nextLine(); 
+            Bank bank = new Bank();
 
             switch (choice) {
                 case 1: {
@@ -32,9 +33,11 @@ public class BankingSystemApp {
                     switch (t) {
                         case 1:
                             SavingAccount acc1 = new SavingAccount(accountNumber, name, balance);
+                            bank.addAccount(acc1);
                             break;
                         case 2:
                             CurrentAccount acc2 = new CurrentAccount(accountNumber, name, balance);
+                            bank.addAccount(acc2);
                             break;
                     }
                     break;
@@ -43,7 +46,7 @@ public class BankingSystemApp {
                     System.out.print("Enter account number: ");
                     String accountNumber = sc.nextLine();
                     Account account = null; 
-                    account=account.findAccount(accountNumber);
+                    account=bank.findAccount(accountNumber);
                     System.out.print("Enter the amount to deposit: ");
                     double deposit = sc.nextDouble();
                     sc.nextLine(); 
@@ -54,7 +57,7 @@ public class BankingSystemApp {
                     System.out.print("Enter account number: ");
                     String accountNumber = sc.nextLine();
                     Account account = null; 
-                    account=account.findAccount(accountNumber);
+                    account=bank.findAccount(accountNumber);
                     System.out.print("Enter the amount to withdraw: ");
                     double withdraw = sc.nextDouble();
                     sc.nextLine();
@@ -65,7 +68,7 @@ public class BankingSystemApp {
                     System.out.print("Enter account number: ");
                     String accountNumber = sc.nextLine();
                     Account account = null ; 
-                    account=account.findAccount(accountNumber);
+                    account=bank.findAccount(accountNumber);
                     account.displayAccountDetails();
                     break;
                 }
