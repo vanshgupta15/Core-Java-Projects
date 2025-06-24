@@ -1,4 +1,4 @@
-abstract public class Account
+abstract class Account
 {
     private String accountNumber;
     private String accountHolderName;
@@ -17,18 +17,18 @@ abstract public class Account
     }
     public String getAccountHolderName()
     {
-        return accountHolderName;
+        return accountHolderName; 
     }
     public double getBalance()
     {
         return balance;
     }
-    public void setBalance(double b)
+    public void setBalance(double balance)
     {
-        balance=b;
+        this.balance=balance;
     }
-    abstract public void deposits(double d);
-    abstract public void withdraw(double w);
+    abstract public void deposits(double amount);
+    abstract public void withdraw(double amount);
     abstract public void displayAccountDetails();
 
 }

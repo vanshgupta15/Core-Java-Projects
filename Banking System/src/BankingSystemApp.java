@@ -19,7 +19,8 @@ public class BankingSystemApp {
             Bank bank = new Bank();
 
             switch (choice) {
-                case 1: {
+                case 1: 
+                {
                     System.out.print("Enter account holder name: ");
                     String name = sc.nextLine();
                     System.out.print("Enter account number: ");
@@ -30,7 +31,8 @@ public class BankingSystemApp {
                     System.out.println("Type of account:-\n1. Saving Account\n2. Current Account");
                     int t = sc.nextInt();
                     sc.nextLine();
-                    switch (t) {
+                    switch (t) 
+                    {
                         case 1:
                             SavingAccount acc1 = new SavingAccount(accountNumber, name, balance);
                             bank.addAccount(acc1);
@@ -42,34 +44,37 @@ public class BankingSystemApp {
                     }
                     break;
                 }
-                case 2: {
+                case 2: 
+                {
                     System.out.print("Enter account number: ");
-                    String accountNumber = sc.nextLine();
-                    Account account = null; 
-                    account=bank.findAccount(accountNumber);
-                    System.out.print("Enter the amount to deposit: ");
-                    double deposit = sc.nextDouble();
-                    sc.nextLine(); 
-                    account.deposits(deposit);
+                    String depositAccountNumber = sc.next();
+                    Account depositAccount = bank.findAccount(depositAccountNumber);
+                    if (depositAccount != null) {
+                        System.out.print("Enter amount to deposit: ");
+                        double depositAmount = sc.nextDouble();
+                        depositAccount.deposits(depositAmount);;
+                    } else {
+                        System.out.println("Account not found.");
+                    }
                     break;
                 }
-                case 3: {
+                case 3: 
+                {
                     System.out.print("Enter account number: ");
-                    String accountNumber = sc.nextLine();
-                    Account account = null; 
-                    account=bank.findAccount(accountNumber);
-                    System.out.print("Enter the amount to withdraw: ");
-                    double withdraw = sc.nextDouble();
-                    sc.nextLine();
-                    account.withdraw(withdraw);
+                    String withdrawAccountNumber = sc.next();
+                    Account withdrawAccount = bank.findAccount(withdrawAccountNumber);
+                    if (withdrawAccount != null) {
+                        System.out.print("Enter amount to withdraw: ");
+                        double withdrawAmount = sc.nextDouble();
+                        withdrawAccount.withdraw(withdrawAmount);
+                    } else {
+                        System.out.println("Account not found.");
+                    }
                     break;
                 }
-                case 4: {
-                    System.out.print("Enter account number: ");
-                    String accountNumber = sc.nextLine();
-                    Account account = null ; 
-                    account=bank.findAccount(accountNumber);
-                    account.displayAccountDetails();
+                case 4: 
+                {
+                    bank.displayAllAccounts();
                     break;
                 }
                 case 5: {
