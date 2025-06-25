@@ -52,7 +52,7 @@ public class BankingSystemApp {
                     if (depositAccount != null) {
                         System.out.print("Enter amount to deposit: ");
                         double depositAmount = sc.nextDouble();
-                        depositAccount.deposits(depositAmount);;
+                        depositAccount.deposits(depositAmount);
                     } else {
                         System.out.println("Account not found.");
                     }
