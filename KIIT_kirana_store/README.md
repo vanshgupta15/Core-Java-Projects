@@ -17,50 +17,50 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
 
-SimpleShoppingCenter/
-│
-├── src/
-│   ├── config/               # Database configuration & constants
-│   │   └── DBConnection.java
-│
-│   ├── model/                # POJO classes (Data models)
-│   │   ├── Product.java
-│   │   ├── User.java
-│   │   ├── Order.java
-│   │   └── Report.java
-│
-│   ├── dao/                  # Data Access Objects (Database logic)
-│   │   ├── ProductDAO.java
-│   │   ├── UserDAO.java
-│   │   ├── OrderDAO.java
-│   │   └── ReportDAO.java
-│
-│   ├── service/              # Business logic layer
-│   │   ├── ProductService.java
-│   │   ├── AuthService.java
-│   │   ├── OrderService.java
-│   │   └── ReportService.java
-│
-│   ├── ui/                   # GUI components (Swing)
-│   │   ├── LoginFrame.java
-│   │   ├── ShopkeeperDashboard.java
-│   │   ├── StaffDashboard.java
-│   │   ├── CustomerDashboard.java
-│   │   ├── ProductManagementPanel.java
-│   │   └── OrderManagementPanel.java
-│
-│   ├── util/                 # Utility classes
-│   │   ├── InputValidator.java
-│   │   └── SessionManager.java
-│
-│   └── Main.java             # Application entry point
-│
-├── lib/                      # External libraries (e.g., MySQL JDBC jar)
-│
-├── resources/                # Images, properties files, icons, etc.
-│
-├── sql/                      # DB scripts (create tables, insert data)
-│   └── schema.sql
-│
-├── README.md
-└── build.gradle / pom.xml    # If using Gradle or Maven (optional)
+        SimpleShoppingCenter/
+        │
+        ├── src/
+        │   ├── config/               # Database configuration & constants
+        │   │   └── DBConnection.java
+        │
+        │   ├── model/                # POJO classes (Data models)
+        │   │   ├── Product.java
+        │   │   ├── User.java
+        │   │   ├── Order.java
+        │   │   └── Report.java
+        │
+        │   ├── dao/                  # Data Access Objects (Database logic)
+        │   │   ├── ProductDAO.java
+        │   │   ├── UserDAO.java
+        │   │   ├── OrderDAO.java
+        │   │   └── ReportDAO.java
+        │
+        │   ├── service/              # Business logic layer
+        │   │   ├── ProductService.java
+        │   │   ├── AuthService.java
+        │   │   ├── OrderService.java
+        │   │   └── ReportService.java
+        │
+        │   ├── ui/                   # GUI components (Swing)
+        │   │   ├── LoginFrame.java
+        │   │   ├── ShopkeeperDashboard.java
+        │   │   ├── StaffDashboard.java
+        │   │   ├── CustomerDashboard.java
+        │   │   ├── ProductManagementPanel.java
+        │   │   └── OrderManagementPanel.java
+        │
+        │   ├── util/                 # Utility classes
+        │   │   ├── InputValidator.java
+        │   │   └── SessionManager.java
+        │
+        │   └── Main.java             # Application entry point
+        │
+        ├── lib/                      # External libraries (e.g., MySQL JDBC jar)
+        │
+        ├── resources/                # Images, properties files, icons, etc.
+        │
+        ├── sql/                      # DB scripts (create tables, insert data)
+        │   └── schema.sql
+        │
+        ├── README.md
+        └── build.gradle / pom.xml    # If using Gradle or Maven (optional)
