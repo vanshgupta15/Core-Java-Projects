@@ -1,5 +1,5 @@
 package service;
 
-public class authService {
+public class AuthService {
     
 }

@@ -1,5 +1,5 @@
 package service;
 
-public class productService {
+public class ProductService {
     
 }

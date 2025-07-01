@@ -1,6 +1,6 @@
 package model;
 
-public class report 
+public class Report 
 {
     
 }

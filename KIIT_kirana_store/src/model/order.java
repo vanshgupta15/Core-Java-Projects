@@ -1,6 +1,6 @@
 package model;
 
-public class order 
+public class Order 
 {
     
 }

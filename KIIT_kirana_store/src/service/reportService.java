@@ -1,5 +1,5 @@
 package service;
 
-public class reportService {
+public class ReportService {
     
 }

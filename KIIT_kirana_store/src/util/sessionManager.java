@@ -1,5 +1,5 @@
 package util;
 
-public class sessionManager {
+public class SessionManager {
     
 }

@@ -1,5 +1,5 @@
 package service;
 
-public class orderService {
+public class OrderService {
     
 }
