@@ -19,10 +19,10 @@ public class User
         this.password=password;
     }
 
-    public User(String userName, String password, String role)
+    public User(String userName, String password, boolean isActive2)
     {
         this.userName=userName;
-        this.role=role;
+        this.isActive=isActive2;
         this.password=password;
     }
 

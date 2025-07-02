@@ -1,8 +1,10 @@
 package ui;
-import javax.swing.*;
+import dao.UserDAO;
 import java.awt.*;
 import java.awt.event.*;
-
+import javax.swing.*;
+import model.User;
+import service.AuthService;
 public class LoginFrame extends JFrame {
 
     private JTextField usernameField;
@@ -51,14 +53,17 @@ public class LoginFrame extends JFrame {
                 }
 
                 // TODO: Connect to AuthService (or UserDAO directly) for real authentication
-                if (username.equals("admin") && password.equals("admin123")) {
-                    showMessage("Login successful!");
-                    // proceed to dashboard
-                    // new AdminDashboard().setVisible(true);
-                    // dispose();
-                } else {
+                AuthService service= new AuthService();
+                service.loginUser(username, password);
+                UserDAO userDAO = new UserDAO();
+                User user=userDAO.login(username, password);
+                System.out.println(user);
+                if (user==null) {
                     showMessage("Invalid credentials. Try again.");
+                } else {
+                    showMessage("Login successful!");
                 }
+                
             }
         });
     }
