@@ -1,31 +1,12 @@
 package service;
-
+import dao.UserDAO;
+import model.User;
 public class AuthService
 {
-    private String userName;
-    private String password;
-
-    public AuthService(String username, String password)
+    public User loginUser(String userName, String password)
     {
-        this.userName=username;
-        this.password=password;
+        UserDAO userDAO = new UserDAO();
+        User user=userDAO.login(userName, password);
+        return user;
     }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-    public void setUserName(String password)
-    {
-        this.userName=userName;
-    }
-    public String getPassword()
-    {
-        return password;
-    }
-    public void setPassword(String password)
-    {
-        this.password=password;
-    }
-
 }
