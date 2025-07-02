@@ -57,7 +57,11 @@ public class LoginFrame extends JFrame {
                 service.loginUser(username, password);
                 UserDAO userDAO = new UserDAO();
                 User user=userDAO.login(username, password);
-                System.out.println(user);
+                System.out.println(user.getUserId());
+                System.out.println(user.getUserName());
+                System.out.println(user.getPassword());
+                System.out.println(user.getRole());
+                System.out.println(user.getIsActive());
                 if (user==null) {
                     showMessage("Invalid credentials. Try again.");
                 } else {
