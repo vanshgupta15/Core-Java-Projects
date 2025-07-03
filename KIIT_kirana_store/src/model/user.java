@@ -91,4 +91,11 @@ public class User
             return false;
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "UserId:"+userId+"\nUsername:"+userName+"\nPassword:"+password+"Active: "+isActive;
+    }
+
 }

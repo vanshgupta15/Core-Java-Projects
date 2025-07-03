@@ -21,13 +21,14 @@ public class UserDAO
             ResultSet rs = stmt.executeQuery(Sql);
             while (rs.next()) 
             {
+                    int userid= rs.getInt("user_id");
                     String usernameFromDB = rs.getString("username"); 
                     String passWordFromDB = rs.getString("password");
                     boolean isActive=rs.getBoolean("is_active");
                     System.out.println(usernameFromDB);
                     System.out.println(passWordFromDB);
                     System.out.println(isActive);
-                    user = new User(usernameFromDB, passWordFromDB, isActive);
+                    user = new User(userid, usernameFromDB, password, passWordFromDB);
                     return user;
             }
             
