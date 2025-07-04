@@ -1,6 +1,8 @@
 package dao;
 import config.DBConnection;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import model.Product;
 public class ProductDAO 
 {
@@ -24,4 +26,31 @@ public class ProductDAO
         }
         return false;
     }
+
+    public List<Product> getAllProducts() 
+    {
+        List<Product> productList = new ArrayList<>();
+        try (Connection con = DBConnection.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                "SELECT p.id, p.item, p.price, p.quantity, c.category, c.sub_category " +
+                "FROM products p JOIN category_master c ON p.catg_master_id = c.id")) {
+
+            while (rs.next()) {
+                Product product = new Product(
+                    rs.getInt("id"),
+                    rs.getString("item"),
+                    rs.getInt("price"),
+                    rs.getInt("quantity"),
+                    rs.getString("category"),
+                    rs.getString("sub_category")
+                );
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
 }

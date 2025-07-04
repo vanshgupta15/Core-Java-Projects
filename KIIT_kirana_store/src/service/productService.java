@@ -1,4 +1,6 @@
 package service;
+import java.util.List;
+
 import dao.ProductDAO;
 import model.Product;
 public class ProductService 
@@ -9,4 +11,10 @@ public class ProductService
         productDAO.addProduct(product);
         return true;
     }
+
+    public List<Product> getAllProducts() 
+    {
+        return new ProductDAO().getAllProducts();
+    }
+
 }

@@ -83,7 +83,7 @@ public class ProductManagementPanel extends JFrame {
         addButton.addActionListener(e -> addProduct());
         updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Product logic goes here"));
         deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Product logic goes here"));
-        refreshButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Refresh Table logic goes here"));
+        refreshButton.addActionListener(e -> loadProductTable());
     }
 
     private void updateSubCategories() {
@@ -137,7 +137,27 @@ public class ProductManagementPanel extends JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        loadProductTable();
     }
+
+    private void loadProductTable() 
+    {
+        tableModel.setRowCount(0); // clear existing rows
+        ProductService productService = new ProductService();
+        java.util.List<Product> productList = productService.getAllProducts();
+
+        for (Product p : productList) {
+            tableModel.addRow(new Object[]{
+                p.getId(),
+                p.getItem(),
+                p.getPrice(),
+                p.getQuantity(),
+                p.getCategory(),
+                p.getSubCategory()
+            });
+        }
+    }
+
 
     private void clearFormFields() {
         itemField.setText("");
