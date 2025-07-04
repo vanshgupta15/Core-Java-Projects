@@ -1,7 +1,7 @@
 package ui;
+
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import model.Product;
@@ -16,7 +16,7 @@ public class ProductManagementPanel extends JFrame {
     private JComboBox<String> categoryCombo, subCategoryCombo;
     private JButton addButton, updateButton, deleteButton, refreshButton;
 
-    private HashMap<String, String[]> subCategoryMap;
+    private ArrayList<String> categoryList;
 
     public ProductManagementPanel() {
         setTitle("Product Management");
@@ -34,21 +34,23 @@ public class ProductManagementPanel extends JFrame {
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createTitledBorder("Product Details"));
 
-        FormService formService= new FormService();
-        ArrayList<String> category= new ArrayList<>();
-        category= formService.getCategories();
-        System.out.println(category);
-        String[] categoryArr = new String[category.size()];
-        categoryArr = category.toArray(categoryArr);
-        
+        FormService formService = new FormService();
+        categoryList = formService.getCategories();
+
         itemField = new JTextField();
         priceField = new JTextField();
         quantityField = new JTextField();
-        categoryCombo = new JComboBox<>(categoryArr);
+
+        categoryCombo = new JComboBox<>();
         subCategoryCombo = new JComboBox<>();
 
+        // Add a blank/default option at the start
+        categoryCombo.addItem("-- Select Category --");
+        for (String category : categoryList) {
+            categoryCombo.addItem(category);
+        }
+
         categoryCombo.addActionListener(e -> updateSubCategories());
-        updateSubCategories();
 
         formPanel.add(new JLabel("Item:"));
         formPanel.add(itemField);
@@ -77,7 +79,7 @@ public class ProductManagementPanel extends JFrame {
         add(tableScroll, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Button Actions (to be implemented)
+        // Button Actions
         addButton.addActionListener(e -> addProduct());
         updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Product logic goes here"));
         deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Product logic goes here"));
@@ -85,33 +87,64 @@ public class ProductManagementPanel extends JFrame {
     }
 
     private void updateSubCategories() {
-        String selectedCategory = (String) categoryCombo.getSelectedItem();
-        System.out.println("selectedCategory:"+selectedCategory);
-        FormService formService2= new FormService();
-        ArrayList<String> subCategory= new ArrayList<>();
-        subCategory= formService2.getSubCategories(selectedCategory);
-        System.out.println(subCategory);
-        String[] subCategoryArr = new String[subCategory.size()];
-        subCategoryArr = subCategory.toArray(subCategoryArr);
         subCategoryCombo.removeAllItems();
-        
-            for (String subCat : subCategoryArr)
-            {
-                subCategoryCombo.addItem(subCat);
+        String selectedCategory = (String) categoryCombo.getSelectedItem();
+
+        if (selectedCategory == null || selectedCategory.equals("-- Select Category --")) {
+            return;
+        }
+
+        FormService formService = new FormService();
+        ArrayList<String> subCategoryList = formService.getSubCategories(selectedCategory);
+
+        if (subCategoryList != null && !subCategoryList.isEmpty()) {
+            for (String sub : subCategoryList) {
+                subCategoryCombo.addItem(sub);
             }
-        
+        }
     }
 
-    private void addProduct()
-    {
-        System.out.println("Item: "+itemField.getText());
-        System.out.println("Price: "+priceField.getText());
-        System.out.println("Quantity: "+quantityField.getText());
-        System.out.println("Category: "+(String) categoryCombo.getSelectedItem());
-        System.out.println("Sub category: "+(String) subCategoryCombo.getSelectedItem());
-        Product product= new Product(itemField.getText(), Integer.parseInt(priceField.getText()), Integer.parseInt(quantityField.getText()), ((String) categoryCombo.getSelectedItem()), ((String) subCategoryCombo.getSelectedItem()));
-        ProductService productService= new ProductService();
-        productService.addProduct(product);
+    private void addProduct() {
+        try {
+            String item = itemField.getText().trim();
+            String priceText = priceField.getText().trim();
+            String quantityText = quantityField.getText().trim();
+            String category = (String) categoryCombo.getSelectedItem();
+            String subCategory = (String) subCategoryCombo.getSelectedItem();
+
+            if (item.isEmpty() || priceText.isEmpty() || quantityText.isEmpty() ||
+                category == null || category.equals("-- Select Category --") || subCategory == null) {
+                JOptionPane.showMessageDialog(this, "Please fill all fields and select valid category/sub-category.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int price = Integer.parseInt(priceText);
+            int quantity = Integer.parseInt(quantityText);
+
+            Product product = new Product(item, price, quantity, category, subCategory);
+            ProductService productService = new ProductService();
+            boolean success = productService.addProduct(product);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Product added successfully!");
+                clearFormFields();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to add product.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Price and Quantity must be valid numbers.", "Input Error", JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void clearFormFields() {
+        itemField.setText("");
+        priceField.setText("");
+        quantityField.setText("");
+        categoryCombo.setSelectedIndex(0); // "-- Select Category --"
+        subCategoryCombo.removeAllItems();
     }
 
     public static void main(String[] args) {
