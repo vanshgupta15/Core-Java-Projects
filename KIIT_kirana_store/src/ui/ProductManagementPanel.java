@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import model.Product;
 import service.FormService;
+import service.ProductService;
 
 public class ProductManagementPanel extends JFrame {
 
@@ -38,17 +40,12 @@ public class ProductManagementPanel extends JFrame {
         System.out.println(category);
         String[] categoryArr = new String[category.size()];
         categoryArr = category.toArray(categoryArr);
-
+        
         itemField = new JTextField();
         priceField = new JTextField();
         quantityField = new JTextField();
         categoryCombo = new JComboBox<>(categoryArr);
         subCategoryCombo = new JComboBox<>();
-
-        // Map categories to subcategories
-        subCategoryMap = new HashMap<>();
-        subCategoryMap.put("Snacks", new String[]{"Mobiles", "Laptops", "Accessories"});
-        subCategoryMap.put("Stationery", new String[]{"Men", "Women", "Kids"});
 
         categoryCombo.addActionListener(e -> updateSubCategories());
         updateSubCategories();
@@ -81,7 +78,7 @@ public class ProductManagementPanel extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Button Actions (to be implemented)
-        addButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Add Product logic goes here"));
+        addButton.addActionListener(e -> addProduct());
         updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Product logic goes here"));
         deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Product logic goes here"));
         refreshButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Refresh Table logic goes here"));
@@ -89,12 +86,32 @@ public class ProductManagementPanel extends JFrame {
 
     private void updateSubCategories() {
         String selectedCategory = (String) categoryCombo.getSelectedItem();
+        System.out.println("selectedCategory:"+selectedCategory);
+        FormService formService2= new FormService();
+        ArrayList<String> subCategory= new ArrayList<>();
+        subCategory= formService2.getSubCategories(selectedCategory);
+        System.out.println(subCategory);
+        String[] subCategoryArr = new String[subCategory.size()];
+        subCategoryArr = subCategory.toArray(subCategoryArr);
         subCategoryCombo.removeAllItems();
-        if (selectedCategory != null && subCategoryMap.containsKey(selectedCategory)) {
-            for (String subCat : subCategoryMap.get(selectedCategory)) {
+        
+            for (String subCat : subCategoryArr)
+            {
                 subCategoryCombo.addItem(subCat);
             }
-        }
+        
+    }
+
+    private void addProduct()
+    {
+        System.out.println("Item: "+itemField.getText());
+        System.out.println("Price: "+priceField.getText());
+        System.out.println("Quantity: "+quantityField.getText());
+        System.out.println("Category: "+(String) categoryCombo.getSelectedItem());
+        System.out.println("Sub category: "+(String) subCategoryCombo.getSelectedItem());
+        Product product= new Product(itemField.getText(), Integer.parseInt(priceField.getText()), Integer.parseInt(quantityField.getText()), ((String) categoryCombo.getSelectedItem()), ((String) subCategoryCombo.getSelectedItem()));
+        ProductService productService= new ProductService();
+        productService.addProduct(product);
     }
 
     public static void main(String[] args) {

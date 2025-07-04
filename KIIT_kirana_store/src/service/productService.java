@@ -1,5 +1,10 @@
 package service;
-
-public class ProductService {
-    
+import model.Product;
+public class ProductService 
+{
+    public boolean addProduct(Product product)
+    {
+        
+        return true;
+    }
 }
