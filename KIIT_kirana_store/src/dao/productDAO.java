@@ -42,6 +42,21 @@ public class ProductDAO
         return false;
     }
 
+    public boolean deleteProduct(Product product) 
+    {
+        Connection con = DBConnection.getConnection();
+        try (Statement stmt = con.createStatement()) {
+            String sql = "delete from products where id="+product.getId()+";";
+            int rowsAffected = stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Product> getAllProducts() 
     {
         List<Product> productList = new ArrayList<>();

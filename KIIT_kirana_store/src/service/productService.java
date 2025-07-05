@@ -18,6 +18,13 @@ public class ProductService
         return true;
     }
 
+    public boolean deleteProduct(Product product)
+    {
+        ProductDAO productDAO= new ProductDAO();
+        productDAO.deleteProduct(product);
+        return true;
+    }
+
     public List<Product> getAllProducts() 
     {
         return new ProductDAO().getAllProducts();
