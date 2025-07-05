@@ -34,11 +34,7 @@ public class AdminDashboard extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
 
         // Action listeners
-        manageProductsButton.addActionListener(e -> {
-            // TODO: Open ProductManagementPanel
-            JOptionPane.showMessageDialog(this, "Opening Product Management...");
-            // new ProductManagementPanel().setVisible(true);
-        });
+        manageProductsButton.addActionListener(e -> { new ProductManagementPanel().setVisible(true);});
 
         manageCategoriesButton.addActionListener(e -> {
             // TODO: Open CategoryManagementPanel
