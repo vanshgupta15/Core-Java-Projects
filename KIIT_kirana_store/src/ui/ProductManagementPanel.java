@@ -14,9 +14,10 @@ public class ProductManagementPanel extends JFrame {
     private DefaultTableModel tableModel;
     private JTextField itemField, priceField, quantityField;
     private JComboBox<String> categoryCombo, subCategoryCombo;
-    private JButton addButton, updateButton, deleteButton, refreshButton;
+    private JButton addButton, updateButton, deleteButton, refreshButton, clearFormButton;
 
     private ArrayList<String> categoryList;
+    private int selectedProductId = -1;  // -1 means no selection
 
     public ProductManagementPanel() {
         setTitle("Product Management");
@@ -68,12 +69,14 @@ public class ProductManagementPanel extends JFrame {
         updateButton = new JButton("Update");
         deleteButton = new JButton("Delete");
         refreshButton = new JButton("Refresh");
+        clearFormButton = new JButton("Clear Form"); // 👈 new button
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(refreshButton);
+        buttonPanel.add(clearFormButton); // 👈 add to panel
 
         add(formPanel, BorderLayout.NORTH);
         add(tableScroll, BorderLayout.CENTER);
@@ -81,9 +84,30 @@ public class ProductManagementPanel extends JFrame {
 
         // Button Actions
         addButton.addActionListener(e -> addProduct());
-        updateButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update Product logic goes here"));
+        updateButton.addActionListener(e -> updateProduct());
         deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Product logic goes here"));
         refreshButton.addActionListener(e -> loadProductTable());
+        clearFormButton.addActionListener(e -> {
+            clearFormFields();
+            selectedProductId = -1;
+            productTable.clearSelection();
+        });
+
+        // Table Row Click to Populate Form
+        productTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && productTable.getSelectedRow() != -1) {
+                int row = productTable.getSelectedRow();
+                selectedProductId = (int) tableModel.getValueAt(row, 0);
+                itemField.setText((String) tableModel.getValueAt(row, 1));
+                priceField.setText(tableModel.getValueAt(row, 2).toString());
+                quantityField.setText(tableModel.getValueAt(row, 3).toString());
+                categoryCombo.setSelectedItem((String) tableModel.getValueAt(row, 4));
+                updateSubCategories();
+                subCategoryCombo.setSelectedItem((String) tableModel.getValueAt(row, 5));
+            }
+        });
+
+        loadProductTable(); // load data on startup
     }
 
     private void updateSubCategories() {
@@ -128,6 +152,7 @@ public class ProductManagementPanel extends JFrame {
             if (success) {
                 JOptionPane.showMessageDialog(this, "Product added successfully!");
                 clearFormFields();
+                loadProductTable();
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to add product.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -137,11 +162,39 @@ public class ProductManagementPanel extends JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        loadProductTable();
     }
 
-    private void loadProductTable() 
-    {
+    private void updateProduct() {
+        if (selectedProductId == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a product to update.");
+            return;
+        }
+
+        try {
+            String item = itemField.getText().trim();
+            int price = Integer.parseInt(priceField.getText().trim());
+            int quantity = Integer.parseInt(quantityField.getText().trim());
+            String category = (String) categoryCombo.getSelectedItem();
+            String subCategory = (String) subCategoryCombo.getSelectedItem();
+
+            Product product = new Product(selectedProductId, item, price, quantity, category, subCategory);
+            ProductService productService = new ProductService();
+            boolean success = productService.updateProduct(product);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Product updated successfully!");
+                clearFormFields();
+                selectedProductId = -1;
+                loadProductTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to update product.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+    private void loadProductTable() {
         tableModel.setRowCount(0); // clear existing rows
         ProductService productService = new ProductService();
         java.util.List<Product> productList = productService.getAllProducts();
@@ -157,7 +210,6 @@ public class ProductManagementPanel extends JFrame {
             });
         }
     }
-
 
     private void clearFormFields() {
         itemField.setText("");
