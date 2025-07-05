@@ -12,16 +12,17 @@ public class ProductManagementPanel extends JFrame {
 
     private JTable productTable;
     private DefaultTableModel tableModel;
-    private JTextField itemField, priceField, quantityField;
+    private JTextField itemField, priceField, quantityField, searchField;
     private JComboBox<String> categoryCombo, subCategoryCombo;
-    private JButton addButton, updateButton, deleteButton, refreshButton, clearFormButton;
+    private JButton addButton, updateButton, deleteButton, refreshButton, clearFormButton, searchButton;
 
     private ArrayList<String> categoryList;
     private int selectedProductId = -1;  // -1 means no selection
 
     public ProductManagementPanel() {
+        setVisible(true);
         setTitle("Product Management");
-        setSize(700, 500);
+        setSize(700, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -30,6 +31,14 @@ public class ProductManagementPanel extends JFrame {
         tableModel = new DefaultTableModel(new String[]{"ID", "Item", "Price", "Quantity", "Category", "Sub-Category"}, 0);
         productTable = new JTable(tableModel);
         JScrollPane tableScroll = new JScrollPane(productTable);
+
+        // Search panel
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchField = new JTextField(20);
+        searchButton = new JButton("Search");
+        searchPanel.add(new JLabel("Search by Name:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
 
         // Form panel
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
@@ -45,7 +54,6 @@ public class ProductManagementPanel extends JFrame {
         categoryCombo = new JComboBox<>();
         subCategoryCombo = new JComboBox<>();
 
-        // Add a blank/default option at the start
         categoryCombo.addItem("-- Select Category --");
         for (String category : categoryList) {
             categoryCombo.addItem(category);
@@ -69,29 +77,34 @@ public class ProductManagementPanel extends JFrame {
         updateButton = new JButton("Update");
         deleteButton = new JButton("Delete");
         refreshButton = new JButton("Refresh");
-        clearFormButton = new JButton("Clear Form"); // 👈 new button
+        clearFormButton = new JButton("Clear Form");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(refreshButton);
-        buttonPanel.add(clearFormButton); // 👈 add to panel
+        buttonPanel.add(clearFormButton);
 
-        add(formPanel, BorderLayout.NORTH);
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(searchPanel, BorderLayout.SOUTH);
+        topPanel.add(formPanel, BorderLayout.CENTER);
+
+        add(topPanel, BorderLayout.NORTH);
         add(tableScroll, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Button Actions
         addButton.addActionListener(e -> addProduct());
         updateButton.addActionListener(e -> updateProduct());
-        deleteButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Delete Product logic goes here"));
+        deleteButton.addActionListener(e -> deleteProduct());
         refreshButton.addActionListener(e -> loadProductTable());
         clearFormButton.addActionListener(e -> {
             clearFormFields();
             selectedProductId = -1;
             productTable.clearSelection();
         });
+        searchButton.addActionListener(e -> searchProductByName());
 
         // Table Row Click to Populate Form
         productTable.getSelectionModel().addListSelectionListener(e -> {
@@ -108,6 +121,22 @@ public class ProductManagementPanel extends JFrame {
         });
 
         loadProductTable(); // load data on startup
+    }
+
+    private void searchProductByName() {
+        String keyword = searchField.getText().trim().toLowerCase();
+        if (keyword.isEmpty()) return;
+
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String itemName = tableModel.getValueAt(i, 1).toString().toLowerCase();
+            if (itemName.contains(keyword)) {
+                productTable.setRowSelectionInterval(i, i);
+                productTable.scrollRectToVisible(productTable.getCellRect(i, 0, true));
+                return;
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "No matching product found.");
     }
 
     private void updateSubCategories() {
@@ -188,6 +217,32 @@ public class ProductManagementPanel extends JFrame {
                 loadProductTable();
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to update product.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+    private void deleteProduct() {
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this product?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        try {
+            String item = itemField.getText().trim();
+            int price = Integer.parseInt(priceField.getText().trim());
+            int quantity = Integer.parseInt(quantityField.getText().trim());
+            String category = (String) categoryCombo.getSelectedItem();
+            String subCategory = (String) subCategoryCombo.getSelectedItem();
+            Product product = new Product(selectedProductId, item, price, quantity, category, subCategory);
+            ProductService productService = new ProductService();
+            boolean success = productService.deleteProduct(product);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Product deleted successfully!");
+                clearFormFields();
+                selectedProductId = -1;
+                loadProductTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to delete product.");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
