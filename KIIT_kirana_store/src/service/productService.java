@@ -1,7 +1,6 @@
 package service;
-import java.util.List;
-
 import dao.ProductDAO;
+import java.util.List;
 import model.Product;
 public class ProductService 
 {
@@ -9,6 +8,13 @@ public class ProductService
     {
         ProductDAO productDAO= new ProductDAO();
         productDAO.addProduct(product);
+        return true;
+    }
+    
+    public boolean updateProduct(Product product)
+    {
+        ProductDAO productDAO= new ProductDAO();
+        productDAO.updateProduct(product);
         return true;
     }
 

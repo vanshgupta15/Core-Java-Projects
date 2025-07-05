@@ -27,6 +27,21 @@ public class ProductDAO
         return false;
     }
 
+    public boolean updateProduct(Product product) 
+    {
+        Connection con = DBConnection.getConnection();
+        try (Statement stmt = con.createStatement()) {
+            String sql = "UPDATE products SET item = '"+product.getItem()+"', price = "+product.getPrice()+",catg_master_id = (SELECT id FROM category_master WHERE category = '"+product.getCategory()+"' AND sub_category = '"+product.getSubCategory()+"'),quantity = "+product.getQuantity()+" WHERE id = "+product.getId()+";";
+            int rowsAffected = stmt.executeUpdate(sql);
+            return rowsAffected > 0;
+        } 
+        catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Product> getAllProducts() 
     {
         List<Product> productList = new ArrayList<>();
