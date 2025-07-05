@@ -36,10 +36,6 @@ insert into category_master(category,sub_category)
 values('Snacks','Cold Drink');
 insert into category_master(category,sub_category)
 values('Snacks','Biscuit');
-insert into category_master(category,sub_category) 
-values('Stationery','Books');
-insert into category_master(category,sub_category) 
-values('Stationery','Pen');
 
 insert into products(item,price,catg_master_id,quantity)
 values('Lays Onion Flavour',20,1,5);
@@ -50,12 +46,19 @@ values('Kurkure Masala',20,1,8);
 insert into products(item,price,catg_master_id,quantity)
 values('Pepsi 400ml',20,2,10);
 
-insert into users(username,password,role,is_active)
-values('kiit123','kiit@123','admin',true);
+INSERT INTO products(item, price, catg_master_id, quantity)
+VALUES ('Lays Classic', 20, 
+       (SELECT id FROM category_master WHERE category = 'Snacks' AND sub_category = 'Chips'),
+        15);
 
-select * from users where username='kiit123' and password='kiit@123'
 
-select distinct(category) from category_master;
+UPDATE products 
+SET item = 'Reynolds Gel Pen',
+    price = 10,
+    catg_master_id = (
+        SELECT id FROM category_master 
+        WHERE category = 'Stationery' AND sub_category = 'Pen'
+    ),
+    quantity = 9
+WHERE id = 5;
 
-select distinct(sub_category) from category_master where category='Snacks';
-select sub_category  from category_master where category='Snacks';
