@@ -7,11 +7,13 @@ public class AdminDashboard extends JFrame {
 
     private JButton manageProductsButton;
     private JButton manageCategoriesButton;
+    private JButton viewReportsButton;
+    private JButton manageTransactionsButton;
     private JButton logoutButton;
 
     public AdminDashboard() {
         setTitle("Admin Dashboard - Shopping Center");
-        setSize(500, 300);
+        setSize(500, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -20,25 +22,40 @@ public class AdminDashboard extends JFrame {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(welcomeLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
 
         manageProductsButton = new JButton("Manage Products");
         manageCategoriesButton = new JButton("Manage Categories");
+        viewReportsButton = new JButton("View Stock Reports");
+        manageTransactionsButton = new JButton("View Transactions");
         logoutButton = new JButton("Logout");
 
         buttonPanel.add(manageProductsButton);
         buttonPanel.add(manageCategoriesButton);
+        buttonPanel.add(viewReportsButton);
+        buttonPanel.add(manageTransactionsButton);
         buttonPanel.add(logoutButton);
 
         add(buttonPanel, BorderLayout.CENTER);
 
         // Action listeners
-        manageProductsButton.addActionListener(e -> { new ProductManagementPanel().setVisible(true);});
+        manageProductsButton.addActionListener(e -> {
+            new ProductManagementPanel().setVisible(true);
+        });
 
         manageCategoriesButton.addActionListener(e -> {
-            // TODO: Open CategoryManagementPanel
             JOptionPane.showMessageDialog(this, "Opening Category Management...");
+        });
+
+        viewReportsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "Opening Stock Report Panel...");
+            // TODO: new StockReportPanel().setVisible(true);
+        });
+
+        manageTransactionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "Opening Transactions Panel...");
+            // TODO: new TransactionPanel().setVisible(true);
         });
 
         logoutButton.addActionListener(e -> {
