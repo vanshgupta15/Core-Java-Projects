@@ -62,3 +62,8 @@ SET item = 'Reynolds Gel Pen',
     quantity = 9
 WHERE id = 5;
 
+
+delete from products where id=1;
+
+insert into users(username,password,role,is_active)
+values('vansh','vansh1512','customer',1);

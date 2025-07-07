@@ -58,10 +58,18 @@ public class LoginFrame extends JFrame {
                 UserDAO userDAO = new UserDAO();
                 User user=userDAO.login(username, password);
                 System.out.println(user);
-                if (user==null) {
+                if (user==null) 
+                {
                     showMessage("Invalid credentials. Try again.");
-                } else {
-                    showMessage("Login successful!");
+                } 
+                else if(user.getRole().equalsIgnoreCase("admin"))
+                {
+                    // showMessage("Login successful!");
+                    SwingUtilities.invokeLater(() -> new AdminDashboard().setVisible(true));
+                }
+                else if(user.getRole().equalsIgnoreCase("customer"))
+                {
+                    showMessage("Welcome customer !!");
                 }
                 
             }

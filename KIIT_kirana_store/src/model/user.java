@@ -11,12 +11,14 @@ public class User
     private boolean isActive;
     private Date createdAt;
 
-    public User(int userId, String userName, String password, String role)
+    public User(int userId, String userName, String password, String role, boolean isActive, Date createdAt)
     {
         this.userName=userName;
         this.userId=userId;
         this.role=role;
         this.password=password;
+        this.isActive=isActive;
+        this.createdAt=createdAt;
     }
 
     public User(String userName, String password, boolean isActive2)
