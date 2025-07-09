@@ -69,7 +69,7 @@ public class LoginFrame extends JFrame {
                 }
                 else if(user.getRole().equalsIgnoreCase("customer"))
                 {
-                    showMessage("Welcome customer !!");
+                    SwingUtilities.invokeLater(() -> new CustomerDashboard("Customer").setVisible(true));
                 }
                 
             }

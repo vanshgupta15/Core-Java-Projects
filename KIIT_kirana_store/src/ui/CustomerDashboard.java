@@ -3,7 +3,6 @@ package ui;
 import model.Product;
 import service.FormService;
 import service.ProductService;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class CustomerDashboard extends JFrame {
     private JButton viewCartButton;
     private int totalAmount = 0;
     private HashMap<String, Integer> cartQuantities = new HashMap<>();
+    private HashMap<String, Integer> itemPrices = new HashMap<>();
 
     private ArrayList<String> categoryList;
 
@@ -72,6 +72,11 @@ public class CustomerDashboard extends JFrame {
         bottomPanel.add(totalLabel);
         bottomPanel.add(viewCartButton);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        viewCartButton.addActionListener(e -> {
+    new CheckoutPage(cartQuantities, itemPrices).setVisible(true);
+});
+
 
         // Event listeners
         categoryCombo.addActionListener(e -> updateSubCategories());
@@ -139,6 +144,7 @@ public class CustomerDashboard extends JFrame {
             totalLabel.setText("Total: ₹" + totalAmount);
 
             cartQuantities.put(product.getItem(), newQuantity);
+            itemPrices.put(product.getItem(), product.getPrice());
         });
 
         card.add(name);
