@@ -1,10 +1,10 @@
 package ui;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class CheckoutPage extends JFrame {
 
@@ -12,6 +12,9 @@ public class CheckoutPage extends JFrame {
     private DefaultTableModel tableModel;
     private JLabel totalLabel;
     private JButton checkoutButton;
+    private JRadioButton cashButton, onlineButton;
+    private ButtonGroup paymentGroup;
+
     private HashMap<String, Integer> cartItems;
     private HashMap<String, Integer> itemPrices;
 
@@ -20,28 +23,53 @@ public class CheckoutPage extends JFrame {
         this.itemPrices = itemPrices;
 
         setTitle("Checkout");
-        setSize(700, 400);
+        setSize(700, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        // 🧾 Table of cart items
         tableModel = new DefaultTableModel(new Object[]{"Item", "Quantity", "Unit Price", "Subtotal"}, 0);
         cartTable = new JTable(tableModel);
         loadCartData();
-
         JScrollPane scrollPane = new JScrollPane(cartTable);
         add(scrollPane, BorderLayout.CENTER);
 
+        // 🔽 Bottom Panel: Payment + Total + Checkout
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+
+        // 🧾 Payment method section
+        JPanel paymentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        paymentPanel.setBorder(BorderFactory.createTitledBorder("Select Payment Method"));
+        cashButton = new JRadioButton("Cash on Delivery");
+        onlineButton = new JRadioButton("Online Payment");
+        cashButton.setSelected(true);
+        paymentGroup = new ButtonGroup();
+        paymentGroup.add(cashButton);
+        paymentGroup.add(onlineButton);
+        paymentPanel.add(cashButton);
+        paymentPanel.add(onlineButton);
+
+        // ✅ Total + Checkout button panel
+        JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         totalLabel = new JLabel("Total: ₹" + calculateTotal());
         checkoutButton = new JButton("Checkout");
+
         checkoutButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Order placed successfully!");
-            this.dispose();
+            String paymentType = cashButton.isSelected() ? "cash" : "online";
+            JOptionPane.showMessageDialog(this, "Order placed with payment: " + paymentType);
+            this.dispose(); // Close window after confirmation
         });
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomPanel.add(totalLabel);
-        bottomPanel.add(checkoutButton);
+        totalPanel.add(totalLabel);
+        totalPanel.add(checkoutButton);
+
+        // Add both panels to bottomPanel
+        bottomPanel.add(paymentPanel);
+        bottomPanel.add(totalPanel);
+
+        // Add bottomPanel to frame
         add(bottomPanel, BorderLayout.SOUTH);
     }
 

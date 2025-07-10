@@ -1,12 +1,12 @@
 package ui;
 
-import model.Product;
-import service.FormService;
-import service.ProductService;
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.*;
+import model.Product;
+import service.FormService;
+import service.ProductService;
 
 public class CustomerDashboard extends JFrame {
 
