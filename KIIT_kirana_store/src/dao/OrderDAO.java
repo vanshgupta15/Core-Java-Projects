@@ -1,6 +1,8 @@
 package dao;
+
 import config.DBConnection;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import model.Order;
 import model.OrderItem;
@@ -28,7 +30,6 @@ public class OrderDAO {
             orderStmt.setString(4, order.getStatus());
 
             int affectedRows = orderStmt.executeUpdate();
-
             if (affectedRows == 0) {
                 throw new SQLException("Creating order failed, no rows affected.");
             }
@@ -64,7 +65,44 @@ public class OrderDAO {
             if (rs != null) rs.close();
             if (orderStmt != null) orderStmt.close();
             if (itemStmt != null) itemStmt.close();
-            if (conn != null) conn.setAutoCommit(true); conn.close();
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        }
+    }
+
+    public List<Order> fetchLast10ActiveOrders() {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE status != 'Delivered' ORDER BY order_date DESC LIMIT 10";
+        try (Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("order_id"));
+                order.setUserId(rs.getInt("user_id"));
+                order.setOrderDate(rs.getTimestamp("order_date"));
+                order.setStatus(rs.getString("status"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public boolean updateOrderStatus(int orderId, String status) {
+        String sql = "UPDATE orders SET status = ? WHERE order_id = ?";
+        try (Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
