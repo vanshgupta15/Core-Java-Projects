@@ -1,47 +1,82 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Order {
-    private int id;
+    private int orderId;
     private int userId;
+    private Timestamp orderDate;
+    private String paymentType;
+    private String status;
     private int totalAmount;
-    private String paymentType; // "cash" or "online"
-    private String status;      // "placed", "cancelled", "delivered"
-    private Date orderDate;
-
-    private List<OrderItem> items; // List of items in the order
+    private List<OrderItem> items; // New field for list of items
 
     // Constructors
     public Order() {}
 
-    public Order(int userId, int totalAmount, String paymentType, String status) {
+    public Order(int userId, String paymentType, String status, int totalAmount) {
         this.userId = userId;
-        this.totalAmount = totalAmount;
         this.paymentType = paymentType;
         this.status = status;
+        this.totalAmount = totalAmount;
     }
 
     // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getOrderId() {
+        return orderId;
+    }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
-    public int getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(int totalAmount) { this.totalAmount = totalAmount; }
+    public int getUserId() {
+        return userId;
+    }
 
-    public String getPaymentType() { return paymentType; }
-    public void setPaymentType(String paymentType) { this.paymentType = paymentType; }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Timestamp getOrderDate() {
+        return orderDate;
+    }
 
-    public Date getOrderDate() { return orderDate; }
-    public void setOrderDate(Date orderDate) { this.orderDate = orderDate; }
+    public void setOrderDate(Timestamp orderDate) {
+        this.orderDate = orderDate;
+    }
 
-    public List<OrderItem> getItems() { return items; }
-    public void setItems(List<OrderItem> items) { this.items = items; }
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    // ✅ New methods for handling items
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 }

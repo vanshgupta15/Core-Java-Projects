@@ -65,5 +65,27 @@ WHERE id = 5;
 
 delete from products where id=1;
 
-insert into users(username,password,role,is_active)
-values('vansh','vansh1512','customer',1);
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_type ENUM('cash', 'online') NOT NULL,
+    status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    total_amount INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+INSERT INTO orders (user_id, payment_type, total_amount)
+VALUES (2, 'cash', 1350);
+INSERT INTO order_items (order_id, product_id, quantity, price)
+VALUES (1, 2, 2, 300),(1, 5, 1, 750);

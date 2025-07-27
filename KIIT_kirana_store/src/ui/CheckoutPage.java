@@ -109,7 +109,7 @@ public class CheckoutPage extends JFrame {
 
         try {
             OrderDAO dao = new OrderDAO();
-            int orderId = dao.placeOrder(order);
+            int orderId = dao.placeOrder(order, OrderItems);
             JOptionPane.showMessageDialog(this, "Order placed successfully! Order ID: " + orderId);
             this.dispose();
         } catch (Exception ex) {

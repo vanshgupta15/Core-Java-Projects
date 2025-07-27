@@ -2,9 +2,7 @@ package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 public class DBConnection 
 {
     public static Connection getConnection()
@@ -19,9 +17,9 @@ public class DBConnection
             e.printStackTrace();
         }
         // create connection
-        String url = "jdbc:mysql://localhost:3306/kiit_kirana_store"; // replace with your database URL
-        String user = "root"; // replace with your database username
-        String password = "root"; // replace with your database password
+        String url = "jdbc:mysql://localhost:3306/kiit_kirana_store"; 
+        String user = "root"; 
+        String password = "root"; 
         Connection conn = null;
         try 
         {
