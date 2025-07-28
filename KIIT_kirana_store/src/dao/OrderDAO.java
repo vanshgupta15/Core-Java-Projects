@@ -15,8 +15,8 @@ public class OrderDAO {
         String itemSql = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement orderStmt = conn.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement itemStmt = conn.prepareStatement(itemSql)) {
+            PreparedStatement orderStmt = conn.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement itemStmt = conn.prepareStatement(itemSql)) {
 
             conn.setAutoCommit(false);
 
